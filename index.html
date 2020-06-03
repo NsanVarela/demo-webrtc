@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Demo chat - WebRTC</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <style>
+        nav {
+            margin-bottom: 5rem;
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar navbar-dark bg-dark navbar-fixed-top">
+        <a class="navbar-brand" href="#">Demo Chat - WebRTC</a>
+    </nav>
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-6">
+                <h1 class="h3 mb-3 font-weight-normal">Chat</h1>
+                <div id="chat-window">
+                    <div id="output"></div>
+                    <div id="typing"></div>
+                </div>
+                
+                <form class="form-signin">
+                    <input type="text" id="handle" class="form-control" placeholder="Pseudo" required autofocus>
+                    <input type="text" id="message" class="form-control" placeholder="Saisissez un message" required>
+                    <button id="button" class="btn btn-lg btn-primary btn-block" type="submit">Send</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="/client.js"></script>
+</body>
+</html>
