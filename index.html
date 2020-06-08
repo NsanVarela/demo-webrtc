@@ -4,13 +4,15 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Demo chat - WebRTC</title>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+        integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
     <style>
         nav {
             margin-bottom: 5rem;
         }
     </style>
 </head>
+
 <body>
     <nav class="navbar navbar-dark bg-dark navbar-fixed-top">
         <a class="navbar-brand" href="#">Demo Chat - WebRTC</a>
@@ -23,17 +25,35 @@
                     <div id="output"></div>
                     <div id="typing"></div>
                 </div>
-                
-                <form class="form-signin">
-                    <input type="text" id="handle" class="form-control" placeholder="Pseudo" required autofocus>
-                    <input type="text" id="message" class="form-control" placeholder="Saisissez un message" required>
-                    <button id="button" class="btn btn-lg btn-primary btn-block" type="submit">Send</button>
-                </form>
+                <div class="container">
+                    <input type="text" id="handle" class="form-control" placeholder="Pseudo"><br>
+                    <input type="text" id="message" class="form-control" placeholder="Saisissez un message"><br>
+                    <button id="button" class="btn btn-lg btn-primary btn-block" type="submit">Envoyer</button>
+                </div>
             </div>
+        </div>
+        <hr>
+        <div class="container">
+            <div class="row">
+                <div class="col-sm col-md-6 col-lg-6">
+                    Video distante
+                    <video id="remoteVideo" autoplay="autplay"></video>
+                </div>
+                <div class="col-sm-6 col-md-6 col-lg-6">
+                    Video locale
+                    <video id="localVideo" autoplay="autplay" muted></video>
+                </div>
+            </div>
+            <span id="displayId"></span>
+            <input type="text" id="connectionId" class="form-control" placeholder="Saisissez un id de connexion"><br>
+            <button id="conn_button" class="btn btn-lg btn-success btn-block" type="submit">Se connecter</button><br>
+            <button id="call_button" class="btn btn-lg btn-danger btn-block" type="submit">Appeller</button>
         </div>
     </div>
 
     <script src="/socket.io/socket.io.js"></script>
+    <script src="https://unpkg.com/peerjs@1.2.0/dist/peerjs.min.js"></script>
     <script src="/client.js"></script>
 </body>
+
 </html>
