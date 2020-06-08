@@ -30,7 +30,7 @@ const message = document.getElementById('message'),
     /* Video */
 
     function getLocalVideo(callbacks) {
-        navigator.getUserMedia = ( navigator.getUserMedia ||
+        navigator.mediaDevices.getUserMedia() = ( navigator.getUserMedia ||
             navigator.webkitGetUserMedia ||
             navigator.mozGetUserMedia ||
             navigator.msGetUserMedia);
@@ -38,7 +38,7 @@ const message = document.getElementById('message'),
             audio: true,
             video: true
         }
-        navigator.getUserMedia(constraints, callbacks.success, callbacks.error)
+        navigator.mediaDevices.getUserMedia()(constraints, callbacks.success, callbacks.error)
     }
 
     function receiveStream(stream, elemId) {
