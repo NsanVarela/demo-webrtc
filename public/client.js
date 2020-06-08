@@ -38,7 +38,7 @@ const message = document.getElementById('message'),
             audio: true,
             video: true
         }
-        navigator.mediaDevices.getUserMedia()(constraints, callbacks.success, callbacks.error)
+        navigator.mediaDevices.getUserMedia(constraints, callbacks.success, callbacks.error)
     }
 
     function receiveStream(stream, elemId) {
