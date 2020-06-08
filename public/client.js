@@ -30,9 +30,12 @@ const message = document.getElementById('message'),
     /* Video */
 
     function getLocalVideo(callbacks) {
-        navigator.getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia
+        navigator.getUserMedia = ( navigator.getUserMedia ||
+            navigator.webkitGetUserMedia ||
+            navigator.mozGetUserMedia ||
+            navigator.msGetUserMedia);
         const constraints = {
-            audio: false,
+            audio: true,
             video: true
         }
         navigator.getUserMedia(constraints, callbacks.success, callbacks.error)
@@ -81,7 +84,7 @@ const message = document.getElementById('message'),
         if (peer_id) {
             conn = peer.connect(peer_id)
         } else {
-            alert('enter an ID')
+            alert('Saisissez un ID')
             return false
         }
     })
