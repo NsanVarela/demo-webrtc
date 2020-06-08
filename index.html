@@ -6,11 +6,7 @@
     <title>Demo chat - WebRTC</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
         integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-    <style>
-        nav {
-            margin-bottom: 5rem;
-        }
-    </style>
+    <link rel="stylesheet" href="/styles.css">
 </head>
 
 <body>
@@ -34,13 +30,13 @@
         </div>
         <hr>
         <div class="container">
-            <div class="row">
-                <div class="col-sm col-md-6 col-lg-6">
-                    Video distante
+            <div class="video-container">
+                <div class="remote-box">
+                    <span class="video-label remLabel">Video distante</span>
                     <video id="remoteVideo" autoplay="autplay"></video>
                 </div>
-                <div class="col-sm-6 col-md-6 col-lg-6">
-                    Video locale
+                <div class="local-box">
+                    <span class="video-label locLabel">Video locale</span>
                     <video id="localVideo" autoplay="autplay" muted></video>
                 </div>
             </div>
