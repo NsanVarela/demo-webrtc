@@ -4,7 +4,10 @@ const message = document.getElementById('message'),
     handle = document.getElementById('handle'),
     output = document.getElementById('output'),
     typing = document.getElementById('typing'),
-    button = document.getElementById('button');
+    button = document.getElementById('button'),
+    videoContainer = document.querySelector('.video-container'),
+    recognitionInput = document.getElementById('recognitionInput'),
+    paragraph = document.getElementById('stot');
 
     message.addEventListener('keypress', () => {
         socket.emit('userTyping', handle.value)
@@ -64,6 +67,7 @@ const message = document.getElementById('message'),
     const peer = new Peer(); 
 
     peer.on('open', (id) => {
+        console.log('peer :' , peer)
         document.getElementById('displayId').innerHTML = peer.id
         // console.log('My peer ID is: ' + id)
     })
@@ -118,5 +122,73 @@ const message = document.getElementById('message'),
         })
     })
 
+    /* Speech Recognition */
 
+    const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
 
+    if (SpeechRecognition) {
+        videoContainer.insertAdjacentHTML("beforeend", `<button type="button" id"micBtn"><i class="fas fa-microphone"></i></button>`);
+        const micBtn = videoContainer.querySelector("button");
+        const micIcon = micBtn.querySelector("i");
+
+        const recognition = new SpeechRecognition();
+        recognition.continuous = true;
+
+        micBtn.addEventListener("click", micBtnClick);
+
+        function micBtnClick() {
+            if (micIcon.classList.contains("fa-microphone")) { // Start Speech Recognition
+                recognition.start();
+            }
+            else { // Stop Speech Recognition
+                recognition.stop();
+            }
+        }
+        // console.log("Your browser supports speechrecognition");
+
+        recognition.addEventListener("start", startSpeechRecognition); // <=> recognition.onstart = function() {...}
+        function startSpeechRecognition() {
+            micIcon.classList.remove("fa-microphone");
+            micIcon.classList.add("fa-microphone-slash");
+            recognitionInput.focus();
+            // console.log("Speech Recognition Active");
+        }
+
+        recognition.addEventListener("end", endSpeechRecognition); // <=> recognition.onstart = function() {...}
+        function endSpeechRecognition() {
+            micIcon.classList.remove("fa-microphone-slash");
+            micIcon.classList.add("fa-microphone");
+            recognitionInput.focus();
+            // console.log("Speech Recognition Disconnected");
+        }
+
+        recognition.addEventListener("result", resultOfSpeechRecognition); // <=> recognition.onresult = function(event) {...}
+        function resultOfSpeechRecognition(event) {
+            const currentResultIndex = event.resultIndex;
+            const transcript = event.results[currentResultIndex][0].transcript;
+            recognitionInput.value = transcript;
+            stot.value = transcript;
+            // console.log('Recording event result : ', event)
+
+            if (transcript.toLowerCase().trim() === "arrêt de l'enregistrement") {
+                recognition.stop();
+            }
+            else if (!recognitionInput.value) {
+                recognitionInput.value = transcript;
+            }
+            else {
+                if (transcript.toLowerCase().trim() === "go") {
+                    // stot = recognitionInput.value;
+                }
+                else if (transcript.toLowerCase().trim() === "effacer") {
+                    recognitionInput.value = "";
+                }
+                else {
+                    recognitionInput.value = transcript;
+                }
+            }
+        }
+    }
+    else {
+        // console.log("Your browser does not support speechrecognition");
+    }
