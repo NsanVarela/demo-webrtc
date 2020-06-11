@@ -30,15 +30,15 @@ const message = document.getElementById('message'),
     /* Video */
 
     function getLocalVideo(callbacks) {
-        navigator.getUserMedia = ( navigator.getUserMedia ||
+        navigator.mediaDevices.getUserMedia = ( navigator.getUserMedia ||
             navigator.webkitGetUserMedia ||
             navigator.mozGetUserMedia ||
             navigator.msGetUserMedia);
         const constraints = {
             audio: true,
-            video: true
+            video: { facingMode: "user" }
         }
-        navigator.getUserMedia(constraints, callbacks.success, callbacks.error)
+        navigator.mediaDevices.getUserMedia(constraints, callbacks.success, callbacks.error)
     }
 
     function receiveStream(stream, elemId) {
