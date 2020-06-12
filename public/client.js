@@ -6,8 +6,7 @@ const message = document.getElementById('message'),
     typing = document.getElementById('typing'),
     button = document.getElementById('button'),
     videoContainer = document.querySelector('.video-container'),
-    recognitionInput = document.getElementById('recognitionInput'),
-    paragraph = document.getElementById('stot');
+    recognitionInput = document.getElementById('recognitionInput');
 
     message.addEventListener('keypress', () => {
         socket.emit('userTyping', handle.value)
@@ -78,10 +77,12 @@ const message = document.getElementById('message'),
 
         document.getElementById('connectionId').value = peer_id
     })
+
     peer.on('error', (err) => {
         alert('an error has happened: ' + err)
         console.log(err)
     })
+
     document.getElementById('conn_button').addEventListener('click', () => {
         peer_id = document.getElementById('connectionId').value
 
@@ -137,10 +138,10 @@ const message = document.getElementById('message'),
         micBtn.addEventListener("click", micBtnClick);
 
         function micBtnClick() {
-            if (micIcon.classList.contains("fa-microphone")) { // Start Speech Recognition
+            if (micIcon.classList.contains("fa-microphone")) {
                 recognition.start();
             }
-            else { // Stop Speech Recognition
+            else {
                 recognition.stop();
             }
         }
@@ -167,7 +168,6 @@ const message = document.getElementById('message'),
             const currentResultIndex = event.resultIndex;
             const transcript = event.results[currentResultIndex][0].transcript;
             recognitionInput.value = transcript;
-            stot.value = transcript;
             // console.log('Recording event result : ', event)
 
             if (transcript.toLowerCase().trim() === "arrêt de l'enregistrement") {
@@ -178,7 +178,6 @@ const message = document.getElementById('message'),
             }
             else {
                 if (transcript.toLowerCase().trim() === "go") {
-                    // stot = recognitionInput.value;
                 }
                 else if (transcript.toLowerCase().trim() === "effacer") {
                     recognitionInput.value = "";
