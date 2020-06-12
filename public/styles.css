@@ -11,6 +11,7 @@ nav {
     color: white;
     height: 600px;
     width: 800px;
+    max-width: 100%;
 }
 
 .vidoe-label {
