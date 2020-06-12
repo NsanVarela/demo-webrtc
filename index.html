@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Demo chat - WebRTC</title>
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.9.0/css/all.css">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
         integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
     <link rel="stylesheet" href="/styles.css">
@@ -41,6 +42,7 @@
                         <span class="video-label locLabel">Video locale</span>
                         <video id="localVideo" autoplay="autplay" muted></video>
                     </div>
+                    <input type="text"  class="form-control" id="recognitionInput" placeholder="Ici, votre retranscription vocale..." autocomplete="off" autofocus>
                 </div>
                 <span id="displayId"></span>
                 <input type="text" id="connectionId" class="form-control" placeholder="Saisissez un id de connexion"><br>

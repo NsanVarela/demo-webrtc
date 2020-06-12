@@ -4,7 +4,9 @@ const message = document.getElementById('message'),
     handle = document.getElementById('handle'),
     output = document.getElementById('output'),
     typing = document.getElementById('typing'),
-    button = document.getElementById('button');
+    button = document.getElementById('button'),
+    videoContainer = document.querySelector('.video-container'),
+    recognitionInput = document.getElementById('recognitionInput');
 
     message.addEventListener('keypress', () => {
         socket.emit('userTyping', handle.value)
@@ -30,15 +32,15 @@ const message = document.getElementById('message'),
     /* Video */
 
     function getLocalVideo(callbacks) {
-        navigator.getUserMedia = ( navigator.getUserMedia ||
+        navigator.mediaDevices.getUserMedia = ( navigator.getUserMedia ||
             navigator.webkitGetUserMedia ||
             navigator.mozGetUserMedia ||
             navigator.msGetUserMedia);
         const constraints = {
             audio: true,
-            video: true
+            video: { facingMode: "user" }
         }
-        navigator.getUserMedia(constraints, callbacks.success, callbacks.error)
+        navigator.mediaDevices.getUserMedia(constraints, callbacks.success, callbacks.error)
     }
 
     function receiveStream(stream, elemId) {
@@ -64,6 +66,7 @@ const message = document.getElementById('message'),
     const peer = new Peer(); 
 
     peer.on('open', (id) => {
+        console.log('peer :' , peer)
         document.getElementById('displayId').innerHTML = peer.id
         // console.log('My peer ID is: ' + id)
     })
@@ -74,10 +77,12 @@ const message = document.getElementById('message'),
 
         document.getElementById('connectionId').value = peer_id
     })
+
     peer.on('error', (err) => {
         alert('an error has happened: ' + err)
         console.log(err)
     })
+
     document.getElementById('conn_button').addEventListener('click', () => {
         peer_id = document.getElementById('connectionId').value
 
@@ -118,5 +123,71 @@ const message = document.getElementById('message'),
         })
     })
 
+    /* Speech Recognition */
 
+    const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
 
+    if (SpeechRecognition) {
+        videoContainer.insertAdjacentHTML("beforeend", `<button type="button" id"micBtn"><i class="fas fa-microphone"></i></button>`);
+        const micBtn = videoContainer.querySelector("button");
+        const micIcon = micBtn.querySelector("i");
+
+        const recognition = new SpeechRecognition();
+        recognition.continuous = true;
+
+        micBtn.addEventListener("click", micBtnClick);
+
+        function micBtnClick() {
+            if (micIcon.classList.contains("fa-microphone")) {
+                recognition.start();
+            }
+            else {
+                recognition.stop();
+            }
+        }
+        // console.log("Your browser supports speechrecognition");
+
+        recognition.addEventListener("start", startSpeechRecognition); // <=> recognition.onstart = function() {...}
+        function startSpeechRecognition() {
+            micIcon.classList.remove("fa-microphone");
+            micIcon.classList.add("fa-microphone-slash");
+            recognitionInput.focus();
+            // console.log("Speech Recognition Active");
+        }
+
+        recognition.addEventListener("end", endSpeechRecognition); // <=> recognition.onstart = function() {...}
+        function endSpeechRecognition() {
+            micIcon.classList.remove("fa-microphone-slash");
+            micIcon.classList.add("fa-microphone");
+            recognitionInput.focus();
+            // console.log("Speech Recognition Disconnected");
+        }
+
+        recognition.addEventListener("result", resultOfSpeechRecognition); // <=> recognition.onresult = function(event) {...}
+        function resultOfSpeechRecognition(event) {
+            const currentResultIndex = event.resultIndex;
+            const transcript = event.results[currentResultIndex][0].transcript;
+            recognitionInput.value = transcript;
+            // console.log('Recording event result : ', event)
+
+            if (transcript.toLowerCase().trim() === "arrêt de l'enregistrement") {
+                recognition.stop();
+            }
+            else if (!recognitionInput.value) {
+                recognitionInput.value = transcript;
+            }
+            else {
+                if (transcript.toLowerCase().trim() === "go") {
+                }
+                else if (transcript.toLowerCase().trim() === "effacer") {
+                    recognitionInput.value = "";
+                }
+                else {
+                    recognitionInput.value = transcript;
+                }
+            }
+        }
+    }
+    else {
+        // console.log("Your browser does not support speechrecognition");
+    }

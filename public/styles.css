@@ -11,7 +11,7 @@ nav {
     color: white;
     height: 600px;
     width: 800px;
-    max-width: 100%;
+    margin-bottom: 100px;
 }
 
 .vidoe-label {
@@ -52,3 +52,13 @@ nav {
     box-shadow: 3px 3px 3px black;
 }
 
+.fas {
+    z-index: 6;
+}
+
+#recognitionInput {
+    border: none;
+}
+#recognitionInput:focus {
+    outline: white;
+}
